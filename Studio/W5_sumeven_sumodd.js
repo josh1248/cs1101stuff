@@ -9,14 +9,18 @@ function every_second(items) {
 every_second(list("a", "x", "b", "y", "c", "z", "d"));
 
 function every_even(items) {
-    return is_null(items)
+    /*return is_null(items)
            ? null
            : is_null(tail(items))
            ? pair(list_ref(items, 0),
                   null)
            : pair(list_ref(items, 0),
                   every_even(tail(tail(items)))
-                  );
+                  );*/
+    return is_null(items)
+           ? null
+           : pair(head(items),
+                  every_second(tail(items)));
 }
 
 every_even(list("a", "x", "b", "y", "c", "z", "d"));
