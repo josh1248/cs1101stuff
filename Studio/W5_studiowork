@@ -1,0 +1,191 @@
+//Josh
+function every_second(items) {
+    return is_null(items) || is_null(tail(items))
+           ? null
+           : pair(list_ref(items, 1), //head(tail(items))
+                  every_second(tail(tail(items)))
+                  );
+}
+
+every_second(list("a", "x", "b", "y", "c", "z", "d"));
+
+function every_even(items) {
+    /*return is_null(items)
+           ? null
+           : is_null(tail(items))
+           ? pair(list_ref(items, 0),
+                  null)
+           : pair(list_ref(items, 0),
+                  every_even(tail(tail(items)))
+                  );*/
+ 
+    return is_null(items)
+           ? null
+           : pair(head(items),
+                  every_second(tail(items)));
+                  
+    //Chan How's 200IQ: 
+    //return every_second(pair(0,items))
+}
+
+every_even(list("a", "x", "b", "y", "c", "z", "d"));
+
+function sums(items) {
+    function sum_list(lst) {
+        return is_null(lst)
+               ? 0
+               : head(lst) + sum_list(tail(lst));
+    }
+    
+    return list(sum_list(every_even(items)),
+                sum_list(every_second(items)));
+}
+
+sums(list(1, 2, 3, 4, 5));
+//Zhihao
+function every_second_Z(items){
+    return is_null(tail(items))||is_null(items)
+    ?null
+    :pair(head(tail(items)),every_second_Z(tail(tail(items))));
+}
+
+function every_even_Z(items){
+    return is_null(tail(items))||is_null(items)
+    ?null
+    :pair(head(items),every_even_Z(tail(items)));
+}
+function sums_Z(items){
+    function sum_lst_Z(items){
+        return is_null(items)
+        ?0
+        :head(items)+sum_lst_Z(tail(items));
+    }
+    return list(sum_lst_Z(every_even_Z(items)),sum_lst_Z(every_second_Z(items));
+}
+
+
+//MT 
+function every_second(items){
+     if (length(tail(items)) % 2 === 1) {
+       return head(items);
+     } else {
+       return pair(head(items), tail(tail(tail(tail(items)))));
+     }
+ }
+ 
+ every_second(list("a", "x", "b", "y", "c", "z", "d"));
+ 
+ /*
+Fai Yew 
+
+//========================= In C (Copium) ==============================
+#include <stdio.h>
+
+void every_second(char* input_list, char* output_list);
+
+static char some_list[7] = {'a', 'x', 'b', 'y', 'c', 'z', 'd'};
+static char resultant_list[3];
+
+int main(void)
+{
+    every_second(some_list, resultant_list);
+
+    // Displays every_second
+    for (int i = 0; i < 8; i++)
+    {
+        printf("%c ", resultant_list[i]);
+    }
+}
+
+void every_second(char* input_list, char* output_list)
+{
+    for (int i = 1; i < 8; i += 2)
+    {
+        output_list[(i + 1) / 2] = input_list[i];
+    }
+}
+
+clang s5.c -o s5
+./s5
+
+//==============================================================
+
+// In source idk how do
+
+
+*/
+
+//kenji
+
+function every_second_kenji(items) {
+    const new_lst = tail(tail(items));
+    return is_null(items) || is_null(tail(items)) ? null
+                                                  : pair(head(tail(items)),
+                                                    every_second_kenji(new_lst));
+}
+every_second_kenji(list(1, 2, 3, 4, 5));
+
+function sum_even_kenji() {
+    return is_null(items) ? null
+                          : pair(head(items))
+}
+//Jalil 
+function every_second(list){
+    return length(list) ===0 || length(list) === 1
+           ? null 
+           : pair(list_ref(list,1),every_second(tail(tail(list))));
+}
+draw_data(every_second(list(1,2,3,4)));
+
+function sums(lst){
+    function s1(list){
+        return length(list)===0
+               ? 0
+               : length(list)===1
+               ? list_ref(list,0)
+               : list_ref(list,0) + s1(tail(tail(list)));
+    }
+    
+    function s2(list){
+        return length(list)===0 || length(list) ===1
+               ? 0
+               : list_ref(list,1) + s2(tail(tail(list)));
+    }
+    
+    return list(s1(lst),s2(lst));
+}
+sums(list(1,2,3,4,5,6));
+
+
+//Hannming
+function hanming_every_second(lst){
+    const len = length(lst);
+    return len < 2
+    ? null
+    : append(list(head(tail(lst))), hanming_every_second(tail(tail(lst))));
+}
+
+hanming_every_second(list("a", "x", "b", "y", "c", "z", "d"));
+
+function hanming_sum(lst){
+    const odd = hanming_every_second(lst);
+    const even = hanming_every_second(pair(0, lst));
+    function sum_helper(odd){
+        return is_null(odd)
+        ? 0
+        : head(odd) + sum_helper(tail(odd));
+    }
+    return list(sum_helper(odd), sum_helper(even));
+}
+
+//Casie
+function every_second_Casie (items){
+    return is_null(items) || is_null (tail(items))
+            ? null 
+            : pair(head(tail(items)),every_second_Casie(tail(tail(items))));
+}
+
+every_second_Casie (list("a","x","b","y","c","z","d'"));
+
+
+
