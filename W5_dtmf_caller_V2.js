@@ -36,25 +36,20 @@ function make_dtmf_tone(frequency_pair) {
                          );
 }
 
-/* Base case: if list of digits is nothing, return silence.
-Else, -get head element of list with head()
-      -convert the head element to a tone with num_to_tone()
-      -end the tone off with 0.1s of silence with consecutively()
 
-Then, by wishful thinking, recursively apply dial to
-the tail of the list of digits.
-*/
+//Cleaner, higher-level version of dial
 function dial(list_of_digits) {
-    //separated to reduce mess of return function
-    const num_to_tone = num => make_dtmf_tone(get_dtmf_frequencies(num));
-    return is_null(list_of_digits)
-           ? silence_sound(0)
-           : consecutively(
-               list(consecutively(list(num_to_tone(head(list_of_digits)),
-                                       silence_sound(0.1))
-                                 ),
-                    dial(tail(list_of_digits)))
-             );
+    //First pass: convert digits to their sounds
+    const digit_sounds =
+        map(num => make_dtmf_tone(get_dtmf_frequencies(num)), list_of_digits);
+    
+    //Second pass: apply silence delimiter to all sounds
+    const digit_sounds_delimited =
+        map(digit_sound => consecutively(list(digit_sound, silence_sound(0.1))),
+            digit_sounds);
+    
+    //Lastly: combine all digit sounds together
+    return consecutively(digit_sounds_delimited);
 }
 
 const evil_num = 18005211980;
