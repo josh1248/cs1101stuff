@@ -17,7 +17,7 @@ function drop(xs, n) {
            : drop(tail(xs), n - 1);
 }
 
-// modify the merging of two sorted lists into one sorted list, such that it counts swaps done.
+// modify merge such that it counts swaps done.
 // have it return a pair,
 // where the sorted list is in the head of the pair, followed by number of swaps at the back.
 
