@@ -21,10 +21,10 @@ function drop(xs, n) {
 // have it return a pair,
 // where the sorted list is in the head of the pair, followed by number of swaps at the back.
 
-// constructor functions that abstract this away
-function sorted_list(merge_modified_pair) {
+// constructor functions that abstract this pair construction of merge modified
+const sorted_list = merge_modified_pair => head(merge_modified_pair);
+const swaps = merge_modified_pair => tail(merge_modified_pair);
     
-}
 function merge_modified(xs, ys, xs_length) { 
     if (xs_length === 0) {
         return pair(ys, 0);
@@ -35,24 +35,20 @@ function merge_modified(xs, ys, xs_length) {
         const y = head(ys);
         if (x < y) {
             const next_result = merge_modified(tail(xs), ys, xs_length - 1);
-            const sorted_list_next = head(next_result);
-            const swaps_next = tail(next_result);
-            return pair(pair(x, sorted_list_next),
-                        0 + swaps_next);
+            return pair(pair(x, sorted_list(next_result)),
+                        0 + swaps(next_result));
         } else {
             const next_result = merge_modified(xs, tail(ys), xs_length);
-            const sorted_list_next = head(next_result);
-            const swaps_next = tail(next_result);
-            return pair(pair(y, sorted_list_next),
-                        xs_length + swaps_next);
+            return pair(pair(y, sorted_list(next_result)),
+                        xs_length + swaps(next_result));
         }
     }
     
 }
 
-merge_modified(list(1,2,4,8), list(3,7), 4);
+merge_modified(list(4,6,7,8), list(1,2,3,5), 4);
 
-
+/*
 function merge_sort_modified(xs) {
     if (is_null(xs) || is_null(tail(xs))) {
         return xs; 
@@ -63,3 +59,4 @@ function merge_sort_modified(xs) {
     } 
 }
 merge_sort(drop(xs, mid)));
+*/
