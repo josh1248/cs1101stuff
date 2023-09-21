@@ -21,7 +21,7 @@ function drop(xs, n) {
 // have it return a pair,
 // where the sorted list is in the head of the pair, followed by number of swaps at the back.
 
-// constructor functions that abstract this pair construction of merge modified
+// constructor functions that abstract make the function easier to read and more abstracted
 const sorted_list = merge_modified_pair => head(merge_modified_pair);
 const swaps = merge_modified_pair => tail(merge_modified_pair);
     
@@ -48,15 +48,16 @@ function merge_modified(xs, ys, xs_length) {
 
 merge_modified(list(4,6,7,8), list(1,2,3,5), 4);
 
-/*
 function merge_sort_modified(xs) {
     if (is_null(xs) || is_null(tail(xs))) {
-        return xs; 
+        return pair(xs, 0); 
     } else {
         const mid = middle(length(xs));
-        return merge_modified(merge_sort(take(xs, mid)),
-                              merge_sort(drop(xs, mid)));
+        const left_result = merge_sort_modified(take(xs, mid));
+        const right_result = merge_sort_modified(drop(xs, mid));
+        return merge_modified(sorted_list(left_result),
+                              sorted_list(right_result),
+                              swaps(left_result) + swaps(right_result)
+                             );
     } 
 }
-merge_sort(drop(xs, mid)));
-*/
