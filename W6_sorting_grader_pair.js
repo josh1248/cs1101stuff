@@ -46,7 +46,7 @@ function merge_modified(xs, ys, xs_length) {
     
 }
 
-merge_modified(list(4,6,7,8), list(1,2,3,5), 4);
+merge_modified(list(4,6,7,8), list(1,2,3,5), 4); // returns 15
 
 function merge_sort_modified(xs) {
     if (is_null(xs) || is_null(tail(xs))) {
@@ -55,9 +55,16 @@ function merge_sort_modified(xs) {
         const mid = middle(length(xs));
         const left_result = merge_sort_modified(take(xs, mid));
         const right_result = merge_sort_modified(drop(xs, mid));
-        return merge_modified(sorted_list(left_result),
-                              sorted_list(right_result),
-                              swaps(left_result) + swaps(right_result)
-                             );
+        const merge_result = merge_modified(sorted_list(left_result),
+                                            sorted_list(right_result),
+                                            length(sorted_list(left_result)));
+        return pair(sorted_list(merge_result),
+                    swaps(left_result) + swaps(right_result) + swaps(merge_result));
     } 
 }
+
+function GraderVer1(arr) {
+    return swaps(merge_sort_modified(arr));
+}
+
+GraderVer1(list(1,2,4,5,3,6,8,7));
