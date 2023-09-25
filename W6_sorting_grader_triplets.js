@@ -39,7 +39,7 @@ const counter_of = modified_pair => tail(modified_pair);
 //Input: input element, modified list.
 //Output: tag that accompanies input element.
 function generate_tag_of(input, modified_list) {
-    return is_null(element_list) 
+    return is_null(modified_list) 
            ? 0 
            : input <= head_entry_of(modified_list)
            ? generate_tag_of(input, tail(modified_list))
@@ -62,22 +62,31 @@ function triplets_with_element(input_element, modified_list) {
 
 //Input: list of elements.
 //Output: modified pair.
-function generate_out_of_order_triplets(xs) {
+function generate_modified_pair_of(xs) {
     if (is_null(xs)) {
         //base case. make the starting modified pair.
         return pair(null, 0);
     } else {
         //Wishful thinking step
-        const recur_result = generate_out_of_order_triplets(tail(xs));
+        const recur_result = generate_modified_pair_of(tail(xs));
+        const recur_modified_list = modified_list_of(recur_result);
+        const recur_counter = counter_of(recur_result);
         
         const incoming_element = head(xs);
         const tagged_incoming_element = 
             pair(incoming_element, 
-                  generate_tag_of(incoming_element,
-                                  modified_list_of(recur_result))
-                );
-        return pair(pair(tagged_incoming_element, modified_list_of(recur_result)),
-                    counter_of(recur_result)
+                 generate_tag_of(incoming_element, recur_modified_list));
+        return pair(pair(tagged_incoming_element,
+                         recur_modified_list),
+                    triplets_with_element(incoming_element, recur_modified_list) + 
+                    recur_counter
                 );
     }
 }
+
+function graderVer2(arr) {
+    return counter_of(generate_modified_pair_of(arr));
+}
+
+// test your program!
+graderVer2(list(5, 2, 3, 1, 4)); // should return 2
