@@ -76,6 +76,7 @@ function generate_modified_pair_of(xs) {
         const tagged_incoming_element = 
             pair(incoming_element, 
                  generate_tag_of(incoming_element, recur_modified_list));
+
         return pair(pair(tagged_incoming_element,
                          recur_modified_list),
                     triplets_with_element(incoming_element, recur_modified_list) + 
