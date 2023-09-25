@@ -8,14 +8,12 @@ elements that are smaller than x.
 if input > x, then n out or order triplets can be formed that involves input as 
 the head element and x as the middle element.
 So we can increase our out of order triplets counter by n, the number tied to the element!
-In total, this takes O(n) steps.
 
-Next, run through the list to count the number of elements smaller than it in the list.
-Pair that with our element. This is an O(n) function.
-
-Thus, an increase in the problem size by 1 increase the number of steps by some linear
-polynomial. d(steps)/d(n) = linear. So steps is a quadratic polynomial, i.e. we have
-constructed an O(n^2) function!!!
+We go through every element in the rest of the list, adding up their tag to the
+out of order triplets whenever our input is bigger than it. there are n-1 other elements
+that are not input. Hence, if we have already solved a problem of size n-1, accomodating
+an additional element takes O(n) time. d(steps)/dn is linear, so steps is a quadratic,
+O(n^2) solution!
 */
 
 
