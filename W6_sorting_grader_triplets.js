@@ -33,9 +33,6 @@ contains the number of out of order triplets in the original list of elements.
 const head_entry_of = modified_list => head(head(modified_list));
 const head_tag_of = modified_list => tail(head(modified_list));
 
-const modified_list_of = modified_pair => head(modified_pair);
-const counter_of = modified_pair => tail(modified_pair);
-
 //Input: input element, modified list.
 //Output: tag that accompanies input element.
 function generate_tag_of(input, modified_list) {
@@ -69,8 +66,8 @@ function generate_modified_pair_of(xs) {
     } else {
         //Wishful thinking step
         const recur_result = generate_modified_pair_of(tail(xs));
-        const recur_modified_list = modified_list_of(recur_result);
-        const recur_counter = counter_of(recur_result);
+        const recur_modified_list = head(recur_result);
+        const recur_counter = tail(recur_result);
         
         const incoming_element = head(xs);
         const tagged_incoming_element = 
