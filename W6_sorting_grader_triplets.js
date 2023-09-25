@@ -16,28 +16,38 @@ an additional element takes O(n) time. d(steps)/dn is linear, so steps is a quad
 O(n^2) solution!
 */
 
+/*
+To accomodate our counting, we need to attribute a tag to every element in the list. 
+This tag is the number of elements smaller than it in the subsequent list.
 
-//To accomodate our counting, we need to:
-//attribute a tag to every element in the list. This tag is the 
-//number of elements smaller than it in the subsequent list.
-//We should do so by modifying our list so that every element in the list is a pair.
-//The head element of the pair is the element itself, 
-//and the tail element of the pair is the tag.
-const entry = tagged_pair => head(pair);
-const tag = tagged_pair => tail(pair);
+We should do so by having our list be the head element be associated with a list
+of tags, such that index n in the list of elements has a tag in index n 
+in the list of tags.
 
-//inputs: element, tagged list.
-//returns: tag of that element.
-function get_tag(element, tagged_lst) {
-    function get_tag_iter(count, element, input_lst){
-        return is_null(lst) 
-               ? 0
-               : element > entry(head(input_lst))
-               ? tag_iter(count + 1, element, tail(input_lst))
-               : tag_iter(count, element, tail(input_lst));
+For a non-loops based solution, it would be good to then associate these lists with a 
+counter that indicates how many out of order triplets are already within 
+the rest of the elements".
+
+Implementation: list(element_list, tag_list, counter).
+call this homemade data structure trio!
+*/
+const make_trio = (element_list, tag_list, counter)
+                    => list(element_list, tag_list, counter);
+
+const elements_of = trio => head(trio);
+const tags_of = trio => head(tail(trio));
+const counter_of = trio => head(tail(tail(trio)));
+
+//Input: list of elements.
+//Output: Trio.
+function generate_trio(element_list) {
+    if (is_null(element_list)) {
+        //base case
+        return make_trio(null, null, 0);
+    } else if (is_null(tail(element_list)) {
+        //base case
+        return make_trio(element_list, list(0), 0);
+    } else {
+        const previous_result = generate_trio(tail(element_list));
     }
-    return tag_iter(0, element, tagged_lst);
 }
-
-//inputs: untagged list.
-//returns: tagged list.
