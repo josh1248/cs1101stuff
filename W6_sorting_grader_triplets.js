@@ -20,34 +20,64 @@ O(n^2) solution!
 To accomodate our counting, we need to attribute a tag to every element in the list. 
 This tag is the number of elements smaller than it in the subsequent list.
 
-We should do so by having our list be the head element be associated with a list
-of tags, such that index n in the list of elements has a tag in index n 
-in the list of tags.
+We should do so by pairing every element in the list with their tag, whereby the 
+head of the pair is the element, and the tail of the pair is the tag.
 
-For a non-loops based solution, it would be good to then associate these lists with a 
-counter that indicates how many out of order triplets are already within 
-the rest of the elements".
+Then, wrap the modified list with a counter that indicates the number of out
+of order triplets in the original list of elements.
 
-Implementation: list(element_list, tag_list, counter).
-call this homemade data structure trio!
+Let's call this a modified pair: the head contains the modified list and the tail
+contains the number of out of order triplets in the original list of elements.
 */
-const make_trio = (element_list, tag_list, counter)
-                    => list(element_list, tag_list, counter);
 
-const elements_of = trio => head(trio);
-const tags_of = trio => head(tail(trio));
-const counter_of = trio => head(tail(tail(trio)));
+const head_entry_of = modified_list => head(head(modified_list));
+const head_tag_of = modified_list => tail(head(modified_list));
+
+const modified_list_of = modified_pair => head(modified_pair);
+const counter_of = modified_pair => tail(modified_pair);
+
+//Input: input element, modified list.
+//Output: tag that accompanies input element.
+function generate_tag_of(input, modified_list) {
+    return is_null(element_list) 
+           ? 0 
+           : input <= head_entry_of(modified_list)
+           ? generate_tag_of(input, tail(modified_list))
+           : 1 + generate_tag_of(input, tail(modified_list));
+}
+
+//Input: input element, modified list.
+//Output: number of out of order 
+//        triplets involving input element in the original list of elements
+function triplets_with_element(input_element, modified_list) {
+    if (is_null(modified_list)) {
+        return 0;
+    } else if (input_element <= head_entry_of(modified_list)) {
+        return triplets_with_element(input_element, tail(modified_list));
+    } else {
+        return head_tag_of(modified_list) +
+               triplets_with_element(input_element, tail(modified_list));
+    }
+}
 
 //Input: list of elements.
-//Output: Trio.
-function generate_trio(element_list) {
-    if (is_null(element_list)) {
-        //base case
-        return make_trio(null, null, 0);
-    } else if (is_null(tail(element_list)) {
-        //base case
-        return make_trio(element_list, list(0), 0);
+//Output: modified pair.
+function generate_out_of_order_triplets(xs) {
+    if (is_null(xs)) {
+        //base case. make the starting modified pair.
+        return pair(null, 0);
     } else {
-        const previous_result = generate_trio(tail(element_list));
+        //Wishful thinking step
+        const recur_result = generate_out_of_order_triplets(tail(xs));
+        
+        const incoming_element = head(xs);
+        const tagged_incoming_element = 
+            pair(incoming_element, 
+                  generate_tag_of(incoming_element,
+                                  modified_list_of(recur_result))
+                );
+        return pair(pair(tagged_incoming_element, modified_list_of(recur_result)),
+                    counter_of(recur_result)
+                );
     }
 }
