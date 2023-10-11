@@ -1,3 +1,4 @@
+/*
 function make_withdraw(balance, password_real) {
     //lock if 3 wrong passwords in a row.
     let remaining_attempts = 3;
@@ -18,7 +19,7 @@ function make_withdraw(balance, password_real) {
     return withdraw;
 }
 const acc = make_withdraw(100, "my_password");
-
+*/
 let commission = 25; // my commission in dollars 
 
 // return a calculator for total price
