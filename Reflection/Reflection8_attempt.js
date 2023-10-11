@@ -18,3 +18,18 @@ function make_withdraw(balance, password_real) {
     return withdraw;
 }
 const acc = make_withdraw(100, "my_password");
+
+let commission = 25; // my commission in dollars 
+
+// return a calculator for total price
+// total price = (commission + cost) * (1 + tax_rate)
+
+function make_price_calculator(tax_rate) { 
+    function calculator(cost) {
+        return (commission + cost) * (1 + tax_rate);
+    }
+    return calculator;
+}
+const calc = make_price_calculator(0.07);
+commission = 125;
+calc(75);
