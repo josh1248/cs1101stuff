@@ -154,4 +154,4 @@ function moony_kenji(n) {
 
 show(moony_kenji(5));
 
-/* recursive, 
+/* recursive */
