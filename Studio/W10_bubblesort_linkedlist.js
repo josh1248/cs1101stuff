@@ -26,11 +26,10 @@ function bubblesort_list(L) {
         //advance list end forward
         list_end = prev_index;
         
-        //reset pair of iterators through list
+        //reset pair of iterators to start of list
         prev_index = L;
         next_index = tail(L);
     }
-    
 }
 
 const LL = list(3, 5, 2, 4, 1); 
