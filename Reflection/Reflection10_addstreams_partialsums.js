@@ -26,8 +26,10 @@ function add_streams(s1, s2) {
 }
 
 function partial_sums_2(s) {
-    const p_sums = add_streams(s, pair(0, () => p_sums));
+    const p_sums = add_streams(s, pair(0, () => stream_tail(p_sums)));
     return p_sums;
 }
+
+
 
 eval_stream(partial_sums_2(null), 12);
