@@ -1,33 +1,26 @@
-let results = [];
-function read(x, y){
-    return results[x] === undefined ? undefined : results[x][y];
+const my_ston = list( list(1, 2, list(3, 4),5), 6, list(7), 8, 9,
+list( list(10), 11, list(12, 13, list(14, 15)) ) );
+function smallest(ston) {
+return is_pair(head(ston)) ? smallest(head(ston)) : head(ston);
 }
+smallest(my_ston); // returns 1
 
-function write(x, y, val){
-    if (results[x] === undefined){
-        results[x] = [];
-    }
-    results[x][y] = val;
+function largest(ston) {
+return !is_null(tail(ston)) ? largest(tail(ston))
+: is_pair(head(ston)) ? largest(head(ston)) : head(ston);
 }
+largest(my_ston);
 
-function m_cc(amount, kinds_of_coins) {
-    return amount === 0
-           ? 1
-           : amount < 0 || kinds_of_coins === 0 
-           ? 0
-           : read(kinds_of_coins, amount) !== undefined
-           ? read(kinds_of_coins, amount)
-           : m_cc(amount, kinds_of_coins - 1) +
-             m_cc(amount - first_denomination(kinds_of_coins),
-                kinds_of_coins);
+function find(ston, x) {
+if (is_null(ston)) {
+return false;
+} else if (is_null(tail(ston))) {
+return is_pair(head(ston)) ? find(head(ston), x) : x === head(ston);
+} else {
+return x > largest(head(ston))
+? find(tail(ston), x)
+: find(head(ston), x);
 }
-
-function first_denomination(kinds_of_coins) {
-    return kinds_of_coins === 1 ? 5 :
-           kinds_of_coins === 2 ? 10 :
-           kinds_of_coins === 3 ? 20 :
-           kinds_of_coins === 4 ? 50 :
-           kinds_of_coins === 5 ? 100 : 0;
 }
-
-m_cc(15, 5);
+find(my_ston, 12); // returns true
+//find(my_ston, 3.5); // returns false
