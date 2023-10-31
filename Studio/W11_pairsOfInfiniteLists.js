@@ -75,4 +75,21 @@ function stream_pairs3(s, i) {
                       : stream_pairs3(s, i + 1));
 }
 
+function interleave_stream_append(s1, s2) {
+    return is_null(s1)
+           ? s2
+           : pair(head(s1), () => interleave_stream_append(s2,
+                                    stream_tail(s1)));
+}
+
+function stream_pairs3_alt(s) {
+    return (is_null(s) || is_null(stream_tail(s)))
+            ? null
+            : pair(pair(head(s), head(stream_tail(s))),
+                    () => interleave_stream_append(
+                                stream_map(x => pair(head(s), x),
+                                stream_tail(stream_tail(s))),
+                                stream_pairs3_alt(stream_tail(s))));
+}
 eval_stream(stream_pairs3(integers_from(1), 1), 20);
+eval_stream(stream_pairs3_alt(integers_from(1)), 20);
