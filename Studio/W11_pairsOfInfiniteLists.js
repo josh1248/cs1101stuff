@@ -92,4 +92,4 @@ function stream_pairs3_alt(s) {
                                 stream_pairs3_alt(stream_tail(s))));
 }
 eval_stream(stream_pairs3(integers_from(1), 1), 20);
-eval_stream(stream_pairs3_alt(integers_from(1)), 20);
+//eval_stream(stream_pairs3_alt(integers_from(1)), 20);
