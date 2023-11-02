@@ -14,11 +14,12 @@ Examples at the end of the program
 */
 
 //Reflection 11 work.
-//Q1a: change op instructions in ~ line 187
+//Q1a: change op instructions in ~ line 190
 //Q1b: operator still works.
-//Q2: functions provided in line 700. 
-//modified to a function to delay, + else if branch in line 63.
-
+//Q2: convert logical composition to conditional expression in ? :
+//call this function logical composition to conditional expression, at line 600
+//add this to evaluator at line 100
+//Q3: add parse to list of primitive functions
 function evaluate(program) { 
     let C = list(make_block(program));
     let S = null;
@@ -104,6 +105,8 @@ function evaluate(program) {
                     pair(make_call_instruction(
                            length(arg_exprs)), C)));
         // machine instructions
+        } else if (is_logical_composition(command)) {
+            return logical_composition_to_conditional_expression(command);
         } else if (is_pop_instruction(command)) {
             S = tail(S);
         } else if (is_binary_operator_instruction(command)) {
@@ -187,7 +190,7 @@ function apply_binary(operator, op1, op2) {
            : operator === "/" 
            ? op1 / op2
            : operator === "%" 
-           ? math_pow(math_pow(op1, 2) + math_pow(op2, 2), 0.5)
+           ? math_hypot(op1, op2)
            : operator === "<" 
            ? op1 < op2
            : operator === ">" 
@@ -706,9 +709,24 @@ function make_logical(value) {
     return list("logical_composition", value);
 }
 
+function logical_composition_to_conditional_expression(component) {
+    return logical_symbol(component) === "&&"
+        ? make_conditional_expression(
+            logical_composition_first_component(component),
+            logical_composition_second_component(component),
+            make_literal(false))
+        : //logical symbol is ||
+        make_conditional_expression(
+            logical_composition_first_component(component),
+            make_literal(true),
+            logical_composition_second_component(component));
+}
+
+
 function parse_and_evaluate(string) {
     return evaluate(parse(string));
 }
+
 
 
 
